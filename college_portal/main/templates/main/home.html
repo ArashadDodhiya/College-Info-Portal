@@ -1,0 +1,281 @@
+<!-- home.html (updated content) -->
+{% extends 'base.html' %}
+{% block title %}Dashboard - College Info Portal{% endblock %}
+{% block content %}
+
+<!-- Events Section -->
+<div id="events" class="dashboard-section active">
+    <div class="d-flex justify-content-between align-items-center mb-4">
+        <h2 class="section-title"><i class="bi bi-calendar-event-fill me-2"></i>Upcoming Events</h2>
+        <span class="badge badge-event">{{ events|length }} Events</span>
+    </div>
+    
+    <div class="row">
+        {% for event in events %}
+        <div class="col-md-4" data-aos="fade-up">
+            <div class="card">
+                <img src="{{ event.image.url }}" class="card-img-top" alt="{{ event.title }}">
+                <div class="card-body">
+                    <div class="d-flex justify-content-between align-items-start">
+                        <h5 class="card-title">{{ event.title }}</h5>
+                        <span class="badge bg-primary">New</span>
+                    </div>
+                    <p class="card-text text-muted">{{ event.description|truncatechars:100 }}</p>
+                    <div class="event-details mt-3">
+                        <p class="mb-1"><i class="bi bi-clock text-primary"></i> <strong>{{ event.date }} | {{ event.time }}</strong></p>
+                        <p class="mb-3"><i class="bi bi-geo-alt-fill text-primary"></i> {{ event.venue }}</p>
+                        {% if event.registration_link %}
+                        <a href="{{ event.registration_link }}" target="_blank" class="btn btn-primary btn-sm">
+                            <i class="bi bi-ticket-perforated"></i> Register Now
+                        </a>
+                        {% endif %}
+                    </div>
+                </div>
+            </div>
+        </div>
+        {% endfor %}
+    </div>
+</div>
+
+<!-- Circulars Section -->
+<div id="circulars" class="dashboard-section">
+    <div class="d-flex justify-content-between align-items-center mb-4">
+        <h2 class="section-title"><i class="bi bi-megaphone-fill me-2"></i>Latest Circulars</h2>
+        <span class="badge bg-info">{{ circulars|length }} Circulars</span>
+    </div>
+    
+    <div class="card">
+        <div class="card-body p-0">
+            <div class="list-group list-group-flush">
+                {% for circular in circulars %}
+                <div class="list-group-item">
+                    <div class="d-flex justify-content-between align-items-center">
+                        <div>
+                            <h6 class="mb-1">{{ circular.title }}</h6>
+                            <small class="text-muted">{{ circular.created_at.date }} | Type: {{ circular.type }}</small>
+                        </div>
+                        <div>
+                            <a href="{{ circular.file_upload.url }}" target="_blank" class="btn btn-outline-primary btn-sm">
+                                <i class="bi bi-eye"></i> View
+                            </a>
+                        </div>
+                    </div>
+                </div>
+                {% endfor %}
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Registration Forms Section -->
+<div id="forms" class="dashboard-section">
+    <div class="d-flex justify-content-between align-items-center mb-4">
+        <h2 class="section-title"><i class="bi bi-pencil-square me-2"></i>Active Registration Forms</h2>
+        <span class="badge bg-warning text-dark">{{ forms|length }} Active</span>
+    </div>
+    
+    <div class="row">
+        {% for form in forms %}
+        <div class="col-md-6">
+            <div class="card">
+                <div class="card-body">
+                    <div class="d-flex justify-content-between align-items-start">
+                        <div>
+                            <h5 class="card-title">{{ form.title }}</h5>
+                            <p class="card-text text-muted">{{ form.description }}</p>
+                        </div>
+                        <span class="badge bg-danger">Last Date: {{ form.last_date }}</span>
+                    </div>
+                    <div class="mt-3">
+                        <a href="{{ form.link }}" class="btn btn-primary" target="_blank">
+                            <i class="bi bi-pencil"></i> Fill Form
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+        {% endfor %}
+    </div>
+</div>
+
+<!-- Clubs Section -->
+<div id="clubs" class="dashboard-section">
+    <div class="d-flex justify-content-between align-items-center mb-4">
+        <h2 class="section-title"><i class="bi bi-people-fill me-2"></i>Clubs & Committees</h2>
+        <span class="badge bg-success">{{ clubs|length }} Clubs</span>
+    </div>
+    
+    <div class="row">
+        {% for club in clubs %}
+        <div class="col-md-4" data-aos="flip-left">
+            <div class="card">
+                <img src="{{ club.logo.url }}" class="card-img-top" alt="{{ club.name }}">
+                <div class="card-body">
+                    <h5>{{ club.name }}</h5>
+                    <p class="text-muted">{{ club.description|truncatechars:100 }}</p>
+                    <div class="club-details mt-3">
+                        <p class="mb-1"><i class="bi bi-person-badge"></i> <small>Faculty: {{ club.faculty_in_charge }}</small></p>
+                        <p class="mb-1"><i class="bi bi-activity"></i> <small>Latest: {{ club.latest_activity }}</small></p>
+                        <button class="btn btn-sm btn-outline-primary mt-2">View Activities</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+        {% endfor %}
+    </div>
+</div>
+
+<!-- Workshops Section -->
+<div id="workshops" class="dashboard-section">
+    <div class="d-flex justify-content-between align-items-center mb-4">
+        <h2 class="section-title"><i class="bi bi-mic-fill me-2"></i>Workshops & Seminars</h2>
+        <span class="badge badge-workshop">{{ workshops|length }} Sessions</span>
+    </div>
+    
+    <div class="row">
+        {% for workshop in workshops %}
+        <div class="col-md-4" data-aos="zoom-in">
+            <div class="card">
+                <img src="{{ workshop.poster.url }}" class="card-img-top">
+                <div class="card-body">
+                    <h5>{{ workshop.title }}</h5>
+                    <p class="text-primary"><i class="bi bi-person"></i> {{ workshop.speaker }}</p>
+                    <div class="workshop-details">
+                        <p class="mb-1"><i class="bi bi-calendar"></i> {{ workshop.date }} | {{ workshop.time }}</p>
+                        <p class="mb-3"><i class="bi bi-geo"></i> {{ workshop.venue }}</p>
+                        {% if workshop.registration_link %}
+                        <a href="{{ workshop.registration_link }}" class="btn btn-primary" target="_blank">
+                            <i class="bi bi-bookmark-check"></i> Register
+                        </a>
+                        {% endif %}
+                    </div>
+                </div>
+            </div>
+        </div>
+        {% endfor %}
+    </div>
+</div>
+
+<!-- Achievements Section -->
+<div id="achievements" class="dashboard-section">
+    <div class="d-flex justify-content-between align-items-center mb-4">
+        <h2 class="section-title"><i class="bi bi-award-fill me-2"></i>Achievements</h2>
+        <span class="badge badge-achievement">{{ achievements|length }} Wins</span>
+    </div>
+    
+    <div class="row">
+        {% for a in achievements %}
+        <div class="col-md-4" data-aos="fade-up">
+            <div class="card">
+                <img src="{{ a.image.url }}" class="card-img-top">
+                <div class="card-body">
+                    <h5>{{ a.title }}</h5>
+                    <p class="text-muted">{{ a.description|truncatechars:100 }}</p>
+                    <div class="d-flex justify-content-between align-items-center">
+                        <span class="badge bg-info">{{ a.category }}</span>
+                        <small class="text-muted">{{ a.date }}</small>
+                    </div>
+                </div>
+            </div>
+        </div>
+        {% endfor %}
+    </div>
+</div>
+
+<!-- Gallery Section -->
+<div id="gallery" class="dashboard-section">
+    <div class="d-flex justify-content-between align-items-center mb-4">
+        <h2 class="section-title"><i class="bi bi-images me-2"></i>Photo Gallery</h2>
+        <span class="badge bg-secondary">{{ gallery|length }} Photos</span>
+    </div>
+    
+    <div class="row">
+        {% for g in gallery %}
+        <div class="col-md-3" data-aos="zoom-in">
+            <div class="card gallery-card">
+                <img src="{{ g.image.url }}" class="card-img-top" style="height: 150px;">
+                <div class="card-body">
+                    <h6>{{ g.title }}</h6>
+                    <small class="text-muted">{{ g.event_name }} | {{ g.date }}</small>
+                </div>
+            </div>
+        </div>
+        {% endfor %}
+    </div>
+</div>
+
+<!-- Downloads Section -->
+<div id="downloads" class="dashboard-section">
+    <div class="d-flex justify-content-between align-items-center mb-4">
+        <h2 class="section-title"><i class="bi bi-download me-2"></i>Downloadable Resources</h2>
+        <span class="badge bg-dark">{{ downloads|length }} Files</span>
+    </div>
+    
+    <div class="card">
+        <div class="card-body p-0">
+            <div class="list-group list-group-flush">
+                {% for d in downloads %}
+                <div class="list-group-item">
+                    <div class="d-flex justify-content-between align-items-center">
+                        <div>
+                            <h6 class="mb-0">{{ d.title }}</h6>
+                            <small class="text-muted">{{ d.category }}</small>
+                        </div>
+                        <a href="{{ d.file.url }}" target="_blank" class="btn btn-primary btn-sm">
+                            <i class="bi bi-download"></i> Download
+                        </a>
+                    </div>
+                </div>
+                {% endfor %}
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Help Center Section -->
+<div id="help" class="dashboard-section">
+    <div class="text-center py-5">
+        <div class="mb-4">
+            <i class="bi bi-question-circle" style="font-size: 4rem; color: var(--accent);"></i>
+        </div>
+        <h2>Help Center</h2>
+        <p class="text-muted mb-4">How can we help you today?</p>
+        
+        <div class="row mt-5">
+            <div class="col-md-4 mb-4">
+                <div class="card h-100">
+                    <div class="card-body">
+                        <i class="bi bi-telephone" style="font-size: 2rem; color: var(--primary);"></i>
+                        <h5 class="mt-3">Contact Support</h5>
+                        <p class="text-muted">Reach out to our support team for immediate assistance</p>
+                        <button class="btn btn-outline-primary">Call Now</button>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="col-md-4 mb-4">
+                <div class="card h-100">
+                    <div class="card-body">
+                        <i class="bi bi-chat-square-text" style="font-size: 2rem; color: var(--primary);"></i>
+                        <h5 class="mt-3">FAQs</h5>
+                        <p class="text-muted">Find answers to common questions in our knowledge base</p>
+                        <button class="btn btn-outline-primary">View FAQs</button>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="col-md-4 mb-4">
+                <div class="card h-100">
+                    <div class="card-body">
+                        <i class="bi bi-envelope" style="font-size: 2rem; color: var(--primary);"></i>
+                        <h5 class="mt-3">Email Us</h5>
+                        <p class="text-muted">Send us an email and we'll get back to you shortly</p>
+                        <button class="btn btn-outline-primary">Send Email</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+{% endblock %}
